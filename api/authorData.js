@@ -1,18 +1,61 @@
-// import client from '../utils/client';
+import client from '../utils/client';
 
-// const endpoint = client.databaseURL;
+const endpoint = client.databaseURL;
 
-// FIXME:  GET ALL AUTHORS
-const getAuthors = () => {};
+// GET ALL AUTHORS
+const getAuthors = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 
-// FIXME: CREATE AUTHOR
-const createAuthor = () => {};
+    .then((response) => response.json())
+    .then((data) => {
+      if (data != null) { resolve(Object.values(data)); } else { resolve(data); }
+    })
+    .catch(reject);
+});
 
-// FIXME: GET SINGLE AUTHOR
-const getSingleAuthor = () => {};
+// CREATE AUTHOR
+const createAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors/${firebaseKey}.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
 
-// FIXME: DELETE AUTHOR
-const deleteSingleAuthor = () => {};
+// GET SINGLE AUTHOR
+const getSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors/${firebaseKey}.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+// DELETE AUTHOR
+const deleteSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors/${firebaseKey}.json`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
 
 // FIXME: UPDATE AUTHOR
 const updateAuthor = () => {};

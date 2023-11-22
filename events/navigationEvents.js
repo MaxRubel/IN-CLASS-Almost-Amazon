@@ -1,6 +1,8 @@
 import { signOut } from '../utils/auth';
 import { getBooks, booksOnSale } from '../api/bookData';
 import { showBooks } from '../pages/books';
+import { getAuthors } from '../api/authorData';
+import { showAuthors } from '../pages/authors';
 
 // navigation events
 const navigationEvents = () => {
@@ -8,22 +10,19 @@ const navigationEvents = () => {
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
 
-  // TODO: BOOKS ON SALE
+  // BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
     booksOnSale().then(showBooks);
   });
 
-  // TODO: ALL BOOKS
+  // ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
     getBooks().then(showBooks);
   });
 
-  // FIXME: STUDENTS Create an event listener for the Authors
-  // 1. When a user clicks the authors link, make a call to firebase to get all authors
-  // 2. Convert the response to an array because that is what the makeAuthors function is expecting
-  // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
+  // STUDENTS Create an event listener for the Authors
   document.querySelector('#authors').addEventListener('click', () => {
-    console.warn('CLICKED AUTHORS');
+    getAuthors().then(showAuthors);
   });
 
   // STRETCH: SEARCH
@@ -40,6 +39,16 @@ const navigationEvents = () => {
       document.querySelector('#search').value = '';
     }
   });
-};
 
+  //   // WHEN THE USER PRESSES ENTER, MAKE THE API CALL AND CLEAR THE INPUT
+  //   if (e.keyCode === 13) {
+  //     // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
+  //     // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
+  //     // OTHERWISE SHOW THE STORE
+
+//     document.querySelector('#search').value = '';
+//   }
+// });
+// };
+};
 export default navigationEvents;
