@@ -31,7 +31,9 @@ const addBookForm = (obj = {}) => {
       </div>
       <button type="submit" class="btn btn-primary">Submit Book
       </button>
-    </form>`;
+    </form>
+    <button type="button" id="bookBack" class="btn btn-light">Back</button>
+    </div>`;
 
   renderToDOM('#form-container', domString);
   selectAuthor(`${obj.author_id || ''}`);

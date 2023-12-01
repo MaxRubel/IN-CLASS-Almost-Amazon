@@ -1,7 +1,7 @@
 import { signOut } from '../utils/auth';
 import { getBooks, booksOnSale } from '../api/bookData';
 import { showBooks } from '../pages/books';
-import { getAuthors } from '../api/authorData';
+import { getAuthors, getFavAuthors } from '../api/authorData';
 import { showAuthors } from '../pages/authors';
 
 // navigation events
@@ -20,35 +20,26 @@ const navigationEvents = () => {
     getBooks().then(showBooks);
   });
 
-  // STUDENTS Create an event listener for the Authors
+  // Authors Create an event listener for the Authors
   document.querySelector('#authors').addEventListener('click', () => {
     getAuthors().then(showAuthors);
+  });
+
+  // Favorite Authors Create an even listener for favorite Authors
+  document.querySelector('#fav-authors').addEventListener('click', () => {
+    getFavAuthors().then(showAuthors);
   });
 
   // STRETCH: SEARCH
   document.querySelector('#search').addEventListener('keyup', (e) => {
     const searchValue = document.querySelector('#search').value.toLowerCase();
-    console.warn(searchValue);
-
-    // WHEN THE USER PRESSES ENTER, MAKE THE API CALL AND CLEAR THE INPUT
     if (e.keyCode === 13) {
-      // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
-      // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
-      // OTHERWISE SHOW THE STORE
-
       document.querySelector('#search').value = '';
+      getBooks().then((books) => {
+        const searchResult = books.filter((book) => book.title.toLowerCase().includes(searchValue));
+        showBooks(searchResult);
+      });
     }
   });
-
-  //   // WHEN THE USER PRESSES ENTER, MAKE THE API CALL AND CLEAR THE INPUT
-  //   if (e.keyCode === 13) {
-  //     // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
-  //     // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
-  //     // OTHERWISE SHOW THE STORE
-
-//     document.querySelector('#search').value = '';
-//   }
-// });
-// };
 };
 export default navigationEvents;
