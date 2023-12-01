@@ -21,6 +21,9 @@ const viewBook = (obj) => {
      <p>${obj.sale ? `<span class="badge bg-info sale-badge"><i class="fa fa-bell" aria-hidden="true"></i> Sale</span> 
        $${obj.price}` : `$${obj.price}`}</p>      
       </div>
+    </div>
+    <div>
+    <button type="button" id="bookBack" class="btn btn-light">Back</button>
     </div>`;
 
   renderToDOM('#view', domString);
