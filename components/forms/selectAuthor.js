@@ -1,4 +1,4 @@
-import { getAuthors } from '../../api/authorData';
+import { getAllAuthors } from '../../api/authorData';
 import renderToDOM from '../../utils/renderToDom';
 
 const selectAuthor = (authorId) => {
@@ -6,7 +6,7 @@ const selectAuthor = (authorId) => {
     <select class="form-control" id="author_id" required>
     <option value="">Select an Author</option>`;
 
-  getAuthors().then((authorsArray) => {
+  getAllAuthors().then((authorsArray) => {
     authorsArray.forEach((author) => {
       domString += `
           <option 
