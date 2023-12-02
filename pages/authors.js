@@ -27,7 +27,7 @@ const showAuthors = (array) => {
           <i class="fas fa-edit btn btn-info" id="update-author--${item.firebaseKey}"></i>
           <i class="btn btn-danger fas fa-trash-alt" id="delete-author-btn--${item.firebaseKey}"></i>
         </div>
-        <i><img src="https://www.freeiconspng.com/uploads/favourite-icon-27.png" width="50" alt="favourite icon" id="favorite--${item.firebaseKey}"/></i>
+        <i><img src="https://www.freeiconspng.com/uploads/favourite-icon-27.png" width="50" alt="favourite icon" id="favorite--${item.firebaseKey}" style="cursor: pointer;"/></i>
       </div>
       `;
       } else if (item.favorite === false) {
@@ -41,7 +41,7 @@ const showAuthors = (array) => {
         <i class="fas fa-edit btn btn-info" id="update-author--${item.firebaseKey}"></i>
         <i class="btn btn-danger fas fa-trash-alt" id="delete-author-btn--${item.firebaseKey}"></i>
       </div>
-      <div><i><img src="https://static.thenounproject.com/png/773080-200.png" width="50" id="Unfavorite--${item.firebaseKey}"/></i></div>
+      <div><i><img src="https://static.thenounproject.com/png/773080-200.png" width="50" id="Unfavorite--${item.firebaseKey}" style="cursor: pointer;"/></i></div>
     </div>
     `;
       }
