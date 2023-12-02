@@ -1,5 +1,4 @@
 import client from '../utils/client';
-import { getBooks } from './bookData';
 
 const endpoint = client.databaseURL;
 
@@ -14,7 +13,11 @@ const getAuthors = () => new Promise((resolve, reject) => {
 
     .then((response) => response.json())
     .then((data) => {
-      if (data != null) { resolve(Object.values(data)); } else { resolve(data); }
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
     })
     .catch(reject);
 });
@@ -86,13 +89,19 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-//  GET A SINGLE AUTHOR'S BOOKS
-const getAuthorBooks = (firebaseKey) => {
-  getBooks().then((books) => {
-    const authorBooksArray = books.filter((book) => book.author_id.includes(firebaseKey));
-    console.warn(authorBooksArray);
-  });
-};
+const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${firebaseKey}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data != null) { resolve(Object.values(data)); } else { resolve(data); }
+    })
+    .catch(reject);
+});
 
 const changeFavoriteAuthor = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/authors/${payload.firebaseKey}.json`, {
@@ -117,3 +126,11 @@ export {
   getAuthorBooks,
   getFavAuthors
 };
+
+// //  GET A SINGLE AUTHOR'S BOOKS
+// const getAuthorBooks = (firebaseKey) => {
+//   getBooks().then((books) => {
+//     const authorBooksArray = books.filter((book) => book.author_id.includes(firebaseKey));
+//     console.warn(authorBooksArray);
+//   });
+// };

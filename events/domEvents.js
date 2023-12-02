@@ -1,7 +1,7 @@
 import { deleteBook, getBooks, getSingleBook } from '../api/bookData';
 import { showBooks } from '../pages/books';
 import {
-  deleteSingleAuthor, getAuthors, changeFavoriteAuthor
+  getAuthors, changeFavoriteAuthor
 } from '../api/authorData';
 import { showAuthors } from '../pages/authors';
 import addAuthorForm from '../components/forms/addAuthorForm';
@@ -23,7 +23,7 @@ const domEvents = () => {
       }
     }
 
-    // TODO: CLICK EVENT FOR SHOWING FORM FOR ADDING A BOOK
+    // CLICK EVENT FOR SHOWING FORM FOR ADDING A BOOK
     if (e.target.id.includes('add-book-btn')) {
       addBookForm();
       // getAuthorBooks('-MiBvQiWr6XNwNa1i3');
@@ -49,38 +49,25 @@ const domEvents = () => {
       // eslint-disable-next-line no-alert
       if (window.confirm('Want to delete?')) {
         const [, firebaseKey] = e.target.id.split('--');
-        deleteSingleAuthor(firebaseKey)
-          .then(deleteAuthorBooksRelationship(firebaseKey))
+        (deleteAuthorBooksRelationship(firebaseKey))
           .then(() => {
             getAuthors().then(showAuthors);
           });
       }
     }
 
-    // ADD CLICK EVENT FOR SHOWING FORM FOR ADDING AN AUTHOR
+    // CLICK EVENT FOR SHOWING FORM FOR ADDING AN AUTHOR
     if (e.target.id.includes('add-author-btn')) {
       addAuthorForm();
     }
-    // ADD CLICK EVENT FOR EDITING AN AUTHOR
+    // CLICK EVENT FOR EDITING AN AUTHOR
     if (e.target.id.includes('update-author')) {
       addAuthorForm();
     }
 
-    // FAVORITE BUTTON -- LIKE
-    if (e.target.id.includes('favorite')) {
-      console.warn('Favorite Clicked');
-      const [, firebaseKey] = e.target.id.split('--');
-      const payload = {
-        favorite: false,
-        firebaseKey
-      };
-      changeFavoriteAuthor(payload)
-        .then(getAuthors)
-        .then(showAuthors);
-    }
-    // UNLIKE
+    // FAVORITE BUTTON
+    // LIKE
     if (e.target.id.includes('Unfavorite')) {
-      console.warn('UnFavorite Clicked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: true,
@@ -91,6 +78,18 @@ const domEvents = () => {
         .then(showAuthors);
     }
 
+    if (e.target.id.includes('favorite')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      const payload = {
+        favorite: false,
+        firebaseKey
+      };
+      changeFavoriteAuthor(payload)
+        .then(getAuthors)
+        .then(showAuthors);
+    }
+
+    // BACK BUTTON
     if (e.target.id.includes('bookBack')) {
       getBooks().then(showBooks);
     }

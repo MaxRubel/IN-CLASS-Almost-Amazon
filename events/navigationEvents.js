@@ -10,27 +10,27 @@ const navigationEvents = () => {
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
 
-  // BOOKS ON SALE
+  // SHOW BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
     booksOnSale().then(showBooks);
   });
 
-  // ALL BOOKS
+  // SHOW BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
     getBooks().then(showBooks);
   });
 
-  // Authors Create an event listener for the Authors
+  // SHOW AUTHORS
   document.querySelector('#authors').addEventListener('click', () => {
     getAuthors().then(showAuthors);
   });
 
-  // Favorite Authors Create an even listener for favorite Authors
+  // SHOW FAVORITE AUTHORS
   document.querySelector('#fav-authors').addEventListener('click', () => {
     getFavAuthors().then(showAuthors);
   });
 
-  // STRETCH: SEARCH
+  // SEARCH
   document.querySelector('#search').addEventListener('keyup', (e) => {
     const searchValue = document.querySelector('#search').value.toLowerCase();
     if (e.keyCode === 13) {

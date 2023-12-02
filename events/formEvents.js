@@ -43,7 +43,8 @@ const formEvents = () => {
         getBooks().then(showBooks);
       });
     }
-    // ADD CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
+
+    // CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
     if (e.target.id.includes('submit-author')) {
       const payload = {
         email: document.querySelector('#email').value,
@@ -60,6 +61,7 @@ const formEvents = () => {
         });
       });
     }
+
     // ADD CLICK EVENT FOR EDITING AN AUTHOR
     if (e.target.id.includes('update-author')) {
       const [, firebaseKey] = e.target.id.split('--');
