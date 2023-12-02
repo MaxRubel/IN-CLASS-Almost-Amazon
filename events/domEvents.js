@@ -9,7 +9,7 @@ import addBookForm from '../components/forms/addBookForm';
 import { getBookDetails, deleteAuthorBooksRelationship } from '../api/mergedData';
 import viewBook from '../pages/viewBook';
 
-const domEvents = () => {
+const domEvents = (user) => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     // CLICK EVENT FOR DELETING A BOOK
     if (e.target.id.includes('delete-book')) {
@@ -18,14 +18,14 @@ const domEvents = () => {
         const [, firebaseKey] = e.target.id.split('--');
 
         deleteBook(firebaseKey).then(() => {
-          getBooks().then(showBooks);
+          getBooks(user).then(showBooks);
         });
       }
     }
 
     // CLICK EVENT FOR SHOWING FORM FOR ADDING A BOOK
     if (e.target.id.includes('add-book-btn')) {
-      addBookForm();
+      addBookForm(user);
       // getAuthorBooks('-MiBvQiWr6XNwNa1i3');
     }
 
@@ -68,30 +68,36 @@ const domEvents = () => {
     // FAVORITE BUTTON
     // LIKE
     if (e.target.id.includes('Unfavorite')) {
+      console.warn('liked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: true,
         firebaseKey
       };
       changeFavoriteAuthor(payload)
-        .then(getAuthors)
-        .then(showAuthors);
+        .then(() => {
+          getAuthors(user)
+            .then(showAuthors);
+        });
     }
 
     if (e.target.id.includes('favorite')) {
+      console.warn('unliked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: false,
         firebaseKey
       };
       changeFavoriteAuthor(payload)
-        .then(getAuthors)
-        .then(showAuthors);
+        .then(() => {
+          getAuthors(user)
+            .then(showAuthors);
+        });
     }
 
     // BACK BUTTON
     if (e.target.id.includes('bookBack')) {
-      getBooks().then(showBooks);
+      getBooks(user).then(showBooks);
     }
   });
 };

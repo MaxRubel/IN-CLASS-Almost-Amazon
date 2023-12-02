@@ -3,8 +3,27 @@ import client from '../utils/client';
 const endpoint = client.databaseURL;
 
 // GET ALL AUTHORS
-const getAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json`, {
+const getAuthors = (user) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${user.uid}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
+    .catch(reject);
+});
+
+const getAllAuthors = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -50,15 +69,18 @@ const getSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 // GET FAVORITE AUTHORS
-const getFavAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
+const getFavAuthors = (user) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${user.uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      const favAuthors = Object.values(data).filter((item) => item.favorite);
+      resolve(favAuthors);
+    })
     .catch(reject);
 });
 
@@ -124,7 +146,8 @@ export {
   deleteSingleAuthor,
   updateAuthor,
   getAuthorBooks,
-  getFavAuthors
+  getFavAuthors,
+  getAllAuthors
 };
 
 // //  GET A SINGLE AUTHOR'S BOOKS

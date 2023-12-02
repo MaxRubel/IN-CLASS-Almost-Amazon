@@ -5,29 +5,32 @@ import { getAuthors, getFavAuthors } from '../api/authorData';
 import { showAuthors } from '../pages/authors';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (user) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
 
   // SHOW BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
-    booksOnSale().then(showBooks);
+    booksOnSale(user).then(showBooks);
   });
 
   // SHOW BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    getBooks().then(showBooks);
+    getBooks(user).then(showBooks);
   });
 
   // SHOW AUTHORS
   document.querySelector('#authors').addEventListener('click', () => {
-    getAuthors().then(showAuthors);
+    getAuthors(user).then((authors) => {
+      showAuthors(authors);
+      console.warn(authors);
+    });
   });
 
   // SHOW FAVORITE AUTHORS
   document.querySelector('#fav-authors').addEventListener('click', () => {
-    getFavAuthors().then(showAuthors);
+    getFavAuthors(user).then(showAuthors);
   });
 
   // SEARCH
@@ -35,7 +38,7 @@ const navigationEvents = () => {
     const searchValue = document.querySelector('#search').value.toLowerCase();
     if (e.keyCode === 13) {
       document.querySelector('#search').value = '';
-      getBooks().then((books) => {
+      getBooks(user).then((books) => {
         const searchResult = books.filter((book) => book.title.toLowerCase().includes(searchValue));
         showBooks(searchResult);
       });
