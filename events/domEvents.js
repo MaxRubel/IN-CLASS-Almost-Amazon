@@ -81,7 +81,6 @@ const domEvents = (user) => {
     // FAVORITE BUTTON
     // LIKE
     if (e.target.id.includes('Unfavorite')) {
-      console.warn('liked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: true,
@@ -95,7 +94,6 @@ const domEvents = (user) => {
     }
 
     if (e.target.id.includes('favorite')) {
-      console.warn('unliked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: false,
