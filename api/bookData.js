@@ -92,6 +92,7 @@ const booksOnSale = (user) => new Promise((resolve, reject) => {
     })
     .catch(reject);
 });
+
 // GET BOOK IMAGE FOR AUTHOR PAGE
 const getSingleAuthorBookPic = (author) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${author.firebaseKey}"`, {

@@ -59,7 +59,6 @@ const formEvents = (user) => {
         const patchPayload = { firebaseKey: name };
 
         updateAuthor(patchPayload).then(() => {
-          console.warn(payload);
           getAuthors(user).then(showAuthors);
         });
       });
@@ -67,6 +66,22 @@ const formEvents = (user) => {
 
     // ADD CLICK EVENT FOR EDITING AN AUTHOR
     if (e.target.id.includes('update-author')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      const payload = {
+        email: document.querySelector('#email').value,
+        first_name: document.querySelector('#first_name').value,
+        last_name: document.querySelector('#last_name').value,
+        uid: user.uid,
+        firebaseKey
+      };
+      updateAuthor(payload).then(() => {
+        getAuthors(user).then(showAuthors);
+      });
+    }
+  });
+
+  document.querySelector('#main-container').addEventListener('click', (e) => {
+    if (e.target.id.includes('updateAuthorButton')) {
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         email: document.querySelector('#email').value,

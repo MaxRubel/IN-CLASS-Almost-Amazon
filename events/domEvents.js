@@ -4,6 +4,7 @@ import {
 import { showBooks } from '../pages/books';
 import {
   getAuthors, changeFavoriteAuthor,
+  getSingleAuthor
 } from '../api/authorData';
 import { showAuthors } from '../pages/authors';
 import addAuthorForm from '../components/forms/addAuthorForm';
@@ -11,6 +12,7 @@ import addBookForm from '../components/forms/addBookForm';
 import { getBookDetails, deleteAuthorBooksRelationship, getAuthorDetails } from '../api/mergedData';
 import viewBook from '../pages/viewBook';
 import viewAuthor from '../pages/viewAuthor';
+import editAuthorForm from '../components/forms/editAuthorForm';
 
 const domEvents = (user) => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
@@ -19,7 +21,6 @@ const domEvents = (user) => {
       // eslint-disable-next-line no-alert
       if (window.confirm('Want to delete?')) {
         const [, firebaseKey] = e.target.id.split('--');
-
         deleteBook(firebaseKey).then(() => {
           getBooks(user).then(showBooks);
         });
@@ -41,15 +42,18 @@ const domEvents = (user) => {
 
     // CLICK EVENT FOR VIEW BOOK DETAILS
     if (e.target.id.includes('view-book-btn')) {
-      console.warn(e.target.id.split('--'));
       const [, firebaseKey] = e.target.id.split('--');
-      getBookDetails(firebaseKey).then(viewBook);
+      getBookDetails(firebaseKey).then((data) => {
+        viewBook(data);
+      });
     }
 
     // CLICK EVENT FOR VIEW AUTHORS
     if (e.target.id.includes('view-author-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
-      getAuthorDetails(firebaseKey).then((data) => { viewAuthor(data); });
+      getAuthorDetails(firebaseKey).then((data) => {
+        viewAuthor(data);
+      });
     }
 
     // CLICK EVENT FOR DELETING AN AUTHOR
@@ -59,7 +63,7 @@ const domEvents = (user) => {
         const [, firebaseKey] = e.target.id.split('--');
         (deleteAuthorBooksRelationship(firebaseKey))
           .then(() => {
-            getAuthors().then(showAuthors);
+            getAuthors(user).then(showAuthors);
           });
       }
     }
@@ -70,13 +74,13 @@ const domEvents = (user) => {
     }
     // CLICK EVENT FOR EDITING AN AUTHOR
     if (e.target.id.includes('update-author')) {
-      addAuthorForm();
+      const [, firebaseKey] = e.target.id.split('--');
+      getSingleAuthor(firebaseKey).then(editAuthorForm);
     }
 
     // FAVORITE BUTTON
     // LIKE
     if (e.target.id.includes('Unfavorite')) {
-      console.warn('liked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: true,
@@ -90,7 +94,6 @@ const domEvents = (user) => {
     }
 
     if (e.target.id.includes('favorite')) {
-      console.warn('unliked');
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
         favorite: false,
