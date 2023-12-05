@@ -1,9 +1,8 @@
 // for merged promises
-import { deleteBook, getSingleBook } from './bookData';
+import { deleteBook, getSingleBook, getSingleAuthorBookPic } from './bookData';
 import { getSingleAuthor, getAuthorBooks, deleteSingleAuthor } from './authorData';
 
 const getBookDetails = (firebaseKey) => new Promise((resolve, reject) => {
-  // GET SINGLE BOOK
   getSingleBook(firebaseKey).then((bookObject) => {
     getSingleAuthor(bookObject.author_id)
       .then((authorObject) => resolve({ ...bookObject, authorObject }));
@@ -20,7 +19,18 @@ const deleteAuthorBooksRelationship = (firebaseKey) => new Promise((resolve, rej
   }).catch(reject);
 });
 
+// GET SINGLE AUTHOR DETAILS
+const getAuthorDetails = (firebaseKey) => new Promise((resolve, reject) => {
+  getSingleAuthor(firebaseKey).then((authorObject) => {
+    getSingleAuthorBookPic(authorObject)
+      .then((bookObject) => {
+        resolve({ bookObject, authorObject });
+      });
+  }).catch(reject);
+});
+
 export {
   getBookDetails,
-  deleteAuthorBooksRelationship
+  deleteAuthorBooksRelationship,
+  getAuthorDetails
 };

@@ -24,7 +24,6 @@ const getBooks = (user) => new Promise((resolve, reject) => {
 });
 
 // DELETE BOOK
-
 const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${firebaseKey}.json`, {
     method: 'DELETE',
@@ -93,8 +92,24 @@ const booksOnSale = (user) => new Promise((resolve, reject) => {
     })
     .catch(reject);
 });
-
-// TODO: STRETCH...SEARCH BOOKS
+// GET BOOK IMAGE FOR AUTHOR PAGE
+const getSingleAuthorBookPic = (author) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${author.firebaseKey}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data)[0]);
+      } else {
+        resolve([]);
+      }
+    })
+    .catch(reject);
+});
 
 export {
   getBooks,
@@ -102,5 +117,6 @@ export {
   booksOnSale,
   deleteBook,
   getSingleBook,
-  updateBook
+  updateBook,
+  getSingleAuthorBookPic,
 };

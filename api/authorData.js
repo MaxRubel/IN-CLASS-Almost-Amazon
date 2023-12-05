@@ -149,11 +149,3 @@ export {
   getFavAuthors,
   getAllAuthors
 };
-
-// //  GET A SINGLE AUTHOR'S BOOKS
-// const getAuthorBooks = (firebaseKey) => {
-//   getBooks().then((books) => {
-//     const authorBooksArray = books.filter((book) => book.author_id.includes(firebaseKey));
-//     console.warn(authorBooksArray);
-//   });
-// };
