@@ -24,7 +24,6 @@ const navigationEvents = (user) => {
   document.querySelector('#authors').addEventListener('click', () => {
     getAuthors(user).then((authors) => {
       showAuthors(authors);
-      console.warn(authors);
     });
   });
 
